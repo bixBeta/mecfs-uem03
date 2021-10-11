@@ -7,3 +7,7 @@ data/
 data*/
 
 .Rproj
+*.out
+*.RDS
+*Rds
+core*

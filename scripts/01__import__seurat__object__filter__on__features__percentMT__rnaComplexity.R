@@ -1,5 +1,5 @@
 source("scripts/packages.R")
-
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 cfs.all = readRDS("/workdir/docker-dump-uem03/global_data/CFSall.RDS")
 cfs.all.meta = cfs.all@meta.data
 
@@ -19,9 +19,9 @@ cfs.samples.to.use = levels(as.factor(df.drop.4759.4769$orig.ident))
 
 sobj = subset(x = cfs.all, idents = cfs.samples.to.use)
 saveRDS(sobj, file = "data/cfs_dropped_R4759_R4769_unfiltered.RDS")
-
 sobj.meta = sobj@meta.data
 
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 png(filename = "figures/ggViolin__DroppedOutlierSamples__percentMT.png", width = 30000,height = 2000)
 
 ggplot(sobj.meta, aes(x= orig.ident, y=percent.mt, fill=orig.ident)) + 
@@ -70,5 +70,11 @@ sobj.meta %>%
   ggplot(aes(x=log10GenesPerUMI, color = phenoGroup, fill=orig.ident)) +
   geom_density(alpha = 0.2) +
   theme_classic() +
-  geom_vline(xintercept = 0.8) + facet_wrap(~ENID)
+  geom_vline(xintercept = 0.8) + facet_wrap(~orig.ident)
 
+
+sobj.filtered <- subset(sobj, subset = nFeature_RNA > 500 & nFeature_RNA < 5000 & percent.mt < 30  & log10GenesPerUMI > 0.80)
+sobj.filtered.meta = sobj.filtered@meta.data
+saveRDS(sobj.filtered, file = "data/cfs__116__samples__filtered.RDS" )
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

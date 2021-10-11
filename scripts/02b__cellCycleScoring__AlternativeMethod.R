@@ -1,3 +1,7 @@
-sobj.filtered = readRDS("data/cfs__116__samples__filtered.RDS")
-load("/workdir/docker-dump-uem03/global_data/cycle.rda")
+sobj.filtered = readRDS("data/post__cellCycleScoring.RDS")
+sobj.filtered.meta = sobj.filtered@meta.data
 
+sobj.filtered$CC.Difference <- sobj.filtered$S.Score - sobj.filtered$G2M.Score
+sobj.filtered.meta = sobj.filtered@meta.data
+
+saveRDS(sobj.filtered, "data/alternativ__method__post__cellCycleScoring.RDS")
